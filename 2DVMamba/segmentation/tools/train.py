@@ -11,15 +11,13 @@ from mmengine.runner import Runner
 from mmseg.registry import RUNNERS
 
 
+import model
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a segmentor')
     parser.add_argument('config', help='train config file path')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
-    parser.add_argument(
-        '--group_mamba',
-        action='store_true',
-        default=False)
     parser.add_argument(
         '--resume',
         action='store_true',
@@ -58,13 +56,6 @@ def parse_args():
 
 def main():
     args = parse_args()
-
-    if not args.group_mamba:
-        # vmamba
-        import model
-    else:
-        # group mamba
-        import model_group_mamba as model
 
     # load config
     cfg = Config.fromfile(args.config)
