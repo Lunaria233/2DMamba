@@ -2,11 +2,7 @@
 Pytorch implementation for the 2DMamba framework described in the paper [2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification], [arxiv](https://arxiv.org/abs/xxx).  
 
 <div>
-  <img src="misc/overview.jpg" width="100%"  alt="The overview of our framework."/>
-</div>
-
-<div>
-  <img src="misc/cuda.jpg" width="100%"  alt="The overview of cuda operator."/>
+  <img src="misc/overview_github.jpg" width="100%"  alt="The overview of our framework."/>
 </div>
 
 ## Installation
@@ -37,7 +33,7 @@ We use CMake to build our CUDA kernel.
 If you have any questions or concerns, feel free to report an issue or directly contact us at Jingwei Zhang <jingwezhang@cs.stonybrook.edu>, Anh Tien Nguyen <jingwezhang@cs.stonybrook.edu> or Xi Han <xihan1@cs.stonybrook.edu>. 
 
 ## Acknowledgments
-Our framework is based on [Mamba](https://github.com/state-spaces/mamba), [VMamba](https://github.com/MzeroMiko/VMamba) and [mamba.py]([Mamba](https://github.com/state-spaces/mamba)). Thanks for their outstanding code.
+Our framework is based on [Mamba](https://github.com/state-spaces/mamba), [VMamba](https://github.com/MzeroMiko/VMamba) and [mamba.py](https://github.com/alxndrTL/mamba.py). Thanks for their outstanding code.
 ## Citation
 If you use the code or results in your research, please use the following BibTeX entry.  
 ```
