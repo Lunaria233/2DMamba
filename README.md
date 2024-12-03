@@ -1,5 +1,5 @@
 # 2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification
-Pytorch implementation for the 2DMamba framework described in the paper [2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification], [arxiv](https://arxiv.org/abs/xxx).  
+Pytorch implementation for the 2DMamba framework described in the paper [2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification](https://arxiv.org/abs/2412.00678), [arxiv](https://arxiv.org/abs/2412.00678).  
 
 <div>
   <img src="misc/overview_github.jpg" width="100%"  alt="The overview of our framework."/>
@@ -27,7 +27,7 @@ You can also use docker or singularity. We provide the [Dockerfile](Dockerfile) 
   $ singularity pull docker://skykiny/mamba:latest # For singularity
 ``` 
 ## Build 2DMamba CUDA kernel
-We use CMake to build our CUDA kernel.
+We use CMake to build our CUDA kernel. Please replace the ```-DPython_ROOT_DIR="/opt/conda"``` in ```cuda_kernel/build.sh``` with your python root directory. E.g. if you use conda environment and your python is located at ```/home/jzhang/Dev/anaconda3_2023/envs/vmamba/bin/python```, you should set ```-DPython_ROOT_DIR="/home/jzhang/Dev/anaconda3_2023/envs/vmamba"```. Then run ```bash build.sh```, the compiled pscan.so should appear under ```v2dmamba_scan``` folder. You can try cd to the root directory of this project and run ```import v2dmamba_scan``` in python to verify if it is correct.
 
 ## Contact
 If you have any questions or concerns, feel free to report an issue or directly contact us at Jingwei Zhang <jingwezhang@cs.stonybrook.edu>, Anh Tien Nguyen <jingwezhang@cs.stonybrook.edu> or Xi Han <xihan1@cs.stonybrook.edu>. 
@@ -37,4 +37,10 @@ Our framework is based on [Mamba](https://github.com/state-spaces/mamba), [VMamb
 ## Citation
 If you use the code or results in your research, please use the following BibTeX entry.  
 ```
+@article{zhang20242DMamba,
+  title={2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification},
+  author={Zhang, Jingwei and Nguyen, Anh Tien and Han, Xi and Trinh, Vincent Quoc-Huy and Qin, Hong and Samaras, Dimitris and Hosseini, Mahdi S.},
+  journal={arXiv preprint arXiv:2412.00678},
+  year={2024}
+}
 ```
