@@ -30,7 +30,7 @@ You can also use docker or singularity. We provide the [Dockerfile](Dockerfile) 
 We use CMake to build our CUDA kernel. Please replace the ```-DPython_ROOT_DIR="/opt/conda"``` in ```cuda_kernel/build.sh``` with your python root directory. E.g. if you use conda environment and your python is located at ```/home/jzhang/Dev/anaconda3_2023/envs/vmamba/bin/python```, you should set ```-DPython_ROOT_DIR="/home/jzhang/Dev/anaconda3_2023/envs/vmamba"```. Then run ```bash build.sh```, the compiled pscan.so should appear under ```v2dmamba_scan``` folder. You can try cd to the root directory of this project and run ```import v2dmamba_scan``` in python to verify if it is correct.
 
 ## Contact
-If you have any questions or concerns, feel free to report an issue or directly contact us at Jingwei Zhang <jingwezhang@cs.stonybrook.edu>, Anh Tien Nguyen <jingwezhang@cs.stonybrook.edu> or Xi Han <xihan1@cs.stonybrook.edu>. 
+If you have any questions or concerns, feel free to report an issue or directly contact us at Jingwei Zhang <jingwezhang@cs.stonybrook.edu>, Anh Tien Nguyen <tienanhnguyen9991@gmail.com> or Xi Han <xihan1@cs.stonybrook.edu>. 
 
 ## Acknowledgments
 Our framework is based on [Mamba](https://github.com/state-spaces/mamba), [VMamba](https://github.com/MzeroMiko/VMamba) and [mamba.py](https://github.com/alxndrTL/mamba.py). Thanks for their outstanding code.
