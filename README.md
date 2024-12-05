@@ -37,9 +37,9 @@ Our framework is based on [Mamba](https://github.com/state-spaces/mamba), [VMamb
 ## Citation
 If you use the code or results in your research, please use the following BibTeX entry.  
 ```
-@article{zhang20242DMamba,
+@article{zhang20242dmamba,
   title={2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification},
-  author={Zhang, Jingwei and Nguyen, Anh Tien and Han, Xi and Trinh, Vincent Quoc-Huy and Qin, Hong and Samaras, Dimitris and Hosseini, Mahdi S.},
+  author={Zhang, Jingwei and Nguyen, Anh Tien and Han, Xi and Trinh, Vincent Quoc-Huy and Qin, Hong and Samaras, Dimitris and Hosseini, Mahdi S},
   journal={arXiv preprint arXiv:2412.00678},
   year={2024}
 }
