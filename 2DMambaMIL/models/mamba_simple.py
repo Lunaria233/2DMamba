@@ -66,8 +66,8 @@ class MambaConfig:
 
         if self.mamba_2d:
             print('Using 2D Mamba')
-            self.HH = self.mamba_2d_max_h // self.mamba_2d_patch_size
-            self.WW = self.mamba_2d_max_w // self.mamba_2d_patch_size
+            self.HH = self.mamba_2d_max_h // self.mamba_2d_patch_size + 1
+            self.WW = self.mamba_2d_max_w // self.mamba_2d_patch_size + 1
         else:
             print('Using 1D Mamba')
 
@@ -257,17 +257,8 @@ class MambaBlock(nn.Module):
 
         # z branch
         z = F.silu(z)   # BS, W, H, ED
-        if self.config.scan_4_way == 'avg':
-            output = (y[0]*z + y[1]*z + y[2]*z + y[3]*z)/4
-            output = self.out_proj(output)
-        elif self.config.scan_4_way == 'add_proj':
-            output = self.out_proj_hs_4_way(y[0]*z + y[1]*z + y[2]*z + y[3]*z)
-        elif self.config.scan_4_way == 'concat':
-            output = torch.concat((y[0]*z, y[1]*z ,y[2]*z, y[3]*z), dim=3)  # concat ED axis
-            output = self.out_proj_hs_4_way(output)
-        else:
-            output = y * z
-            output = self.out_proj(output) # (B, L, D)
+        output = y * z
+        output = self.out_proj(output) # (B, L, D)
 
         return output
     
@@ -376,61 +367,12 @@ class MambaBlock(nn.Module):
 
         # BS, H, W, ED = x.size()
         # _,_,_, N = B.size()
-        '''
-        # W, H = int(math.sqrt(L)), int(math.sqrt(L))  # TODO: expand to non-sqr images
-
-        # x = x.view(BS, H, W, ED)
-        # delta = delta.view(BS, H, W, ED)
-        # B = B.view(BS, H, W, N)
-        # C = C.view(BS, H, W, N)
-        # y = y.view(BS, H, W, ED)
-        '''
         
         deltaA = torch.exp(delta.unsqueeze(-1) * A) # (BS, H, W, ED, N)   # A_bar with ZOH discretization
         deltaB = delta.unsqueeze(-1) * B.unsqueeze(3) # (BS, H, W, ED, N) # B_bar with Euler discretization
 
         BX = deltaB * (x.unsqueeze(-1)) # (B, H, W, ED, N)
 
-        '''
-        # if self.config.scan_4_way != 'None':
-        #     y = []
-        #     if self.config.scan_4_way_order == 'ul_ll_ur_lr':
-        #         hs_upper_left = pscan_2d(deltaA, BX) # deltaA: (BS, H, W, ED, N)
-        #         y.append((hs_upper_left @ C.unsqueeze(-1)).squeeze(4) + D * x)
-
-        #         hs_lower_left = pscan_2d(deltaA, torch.flip(deltaA, dims=[1])) # flip H axis
-        #         y.append((hs_lower_left @ C.unsqueeze(-1)).squeeze(4) + D * x)
-
-        #         hs_upper_right = pscan_2d(deltaA, torch.flip(deltaA, dims=[2])) # flip W axis
-        #         y.append((hs_upper_right @ C.unsqueeze(-1)).squeeze(4) + D * x)
-
-        #         hs_lower_right = pscan_2d(deltaA, torch.flip(deltaA, dims=[1,2])) # flip H,W axis
-        #         y.append((hs_lower_right @ C.unsqueeze(-1)).squeeze(4) + D * x)
-
-        #     elif self.config.scan_4_way_order == 'ul_ur_ll_lr':
-        #         hs_upper_left = pscan_2d(deltaA, BX) # deltaA: (BS, H, W, ED, N)
-        #         y.append((hs_upper_left @ C.unsqueeze(-1)).squeeze(4) + D * x)
-
-        #         hs_upper_right = pscan_2d(deltaA, torch.flip(deltaA, dims=[2])) # flip W axis
-        #         y.append((hs_upper_right @ C.unsqueeze(-1)).squeeze(4) + D * x)
-
-        #         hs_lower_left = pscan_2d(deltaA, torch.flip(deltaA, dims=[1])) # flip H axis
-        #         y.append((hs_lower_left @ C.unsqueeze(-1)).squeeze(4) + D * x)
-
-        #         hs_lower_right = pscan_2d(deltaA, torch.flip(deltaA, dims=[1,2])) # flip H,W axis
-        #         y.append((hs_lower_right @ C.unsqueeze(-1)).squeeze(4) + D * x)
-        
-        #     # if self.config.scan_4_way == 'avg':
-        #     #     hs = (hs_upper_left + hs_upper_right + hs_lower_left + hs_lower_right) / 4
-        #     # else:
-        #     #     hs = torch.concat((hs_upper_left,
-        #     #                     hs_upper_right,
-        #     #                     hs_lower_left,
-        #     #                     hs_lower_right), 
-        #     #                     dim=3)  # concat ED axis
-        #     #     hs = self.out_proj_hs_4_way(hs)
-        # else:
-        '''
         
         hs = pscan_2d(deltaA, BX)
         y = (hs @ C.unsqueeze(-1)).squeeze(4) # (B, L, ED, N) @ (B, L, N, 1) -> (B, L, ED, 1)

@@ -41,7 +41,7 @@ class MambaMIL_2D(nn.Module):
             inner_layernorms = args.mambamil_inner_layernorms,
             pscan = args.pscan,
             use_cuda = args.cuda_pscan,
-            mamba_2d = args.mamba_2d,
+            mamba_2d = True if args.model_type == '2DMambaMIL' else False,
             mamba_2d_max_w = args.mamba_2d_max_w,
             mamba_2d_max_h = args.mamba_2d_max_h,
             mamba_2d_pad_token = args.mamba_2d_pad_token,
@@ -107,9 +107,9 @@ class MambaMIL_2D(nn.Module):
         if self.survival:
             hazards = torch.sigmoid(logits)
             S = torch.cumprod(1 - hazards, dim=1)
-            return hazards, S, Y_hat, None
+            return hazards, S, Y_hat, None, None # same return as other models
 
-        return logits, Y_prob, Y_hat, results_dict
+        return logits, Y_prob, Y_hat, results_dict, None # same return as other models
     
     def relocate(self):
         device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
