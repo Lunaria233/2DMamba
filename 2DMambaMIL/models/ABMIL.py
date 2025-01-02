@@ -124,8 +124,6 @@ class GatedAttention(nn.Module):
         A_U = self.attention_U(feature)  # NxD
         A = self.attention_weights(A_V * A_U) # element wise multiplication # NxK
         A_raw = A.detach().clone().squeeze(2)
-        print(A_raw.shape)
-        quit()
         A = torch.transpose(A, 1, 0)  # KxN
         A = F.softmax(A, dim=1)  # softmax over N
 
