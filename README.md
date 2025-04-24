@@ -5,6 +5,12 @@ Pytorch implementation for the 2DMamba framework described in the paper [2DMamba
   <img src="misc/overview_github.jpg" width="100%"  alt="The overview of our framework."/>
 </div>
 
+## TODO
+1. Adding training/testing instructions.
+2. Fix bugs in draw_heatmap.py.
+3. Upload model weights.
+4. Pack CUDA kernel into a python package.
+
 ## Installation
 Install [Anaconda/miniconda](https://www.anaconda.com/products/distribution).  
 Required packages:
@@ -12,7 +18,7 @@ Required packages:
   $ conda create --name 2dmamba python=3.10
   $ conda activate 2dmamba
   $ conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 pytorch-cuda=11.8 -c pytorch -c nvidia
-  $ conda install nvidia/label/cuda-11.8.0::cuda
+  $ conda install cuda -c nvidia/label/cuda-11.8.0
   $ conda install cmake # If you already have cmake, ignore this
   $ pip install pandas opencv-contrib-python kornia gpustat albumentations triton timm==0.4.12 tqdm pytest chardet yacs termcolor submitit tensorboardX fvcore seaborn einops tensorboard joblib
   $	pip install mamba-ssm
@@ -21,6 +27,18 @@ Required packages:
   $ pip install mmdet==3.3.0 mmsegmentation==1.2.2 mmpretrain==1.2.0
 
 ``` 
+Note that because of some dependency issue of cuda packages, you may need to reinstall some/all cuda packages by:
+```
+# If you got an error of missing some header files
+conda install nvidia/label/cuda-11.8.0::cuda-cudart-dev # For missing "cuda_runtime.h"
+conda install nvidia/label/cuda-11.8.0::cuda-cupti # for missing "cuda_stdint.h"
+conda install nvidia/label/cuda-11.8.0::libcusparse-dev # for missing "cusparse.h"
+conda install nvidia/label/cuda-11.8.0::libcublas-dev # for missing "cublas_v2.h" or "cublas.h"
+
+# If you want to reinstall all cuda packages
+conda install cuda cuda-cccl cuda-command-line-tools cuda-compiler cuda-cudart cuda-cudart-dev cuda-cuobjdump cuda-cupti cuda-cuxxfilt cuda-demo-suite cuda-documentation cuda-driver-dev cuda-gdb cuda-libraries cuda-libraries-dev cuda-memcheck cuda-nsight cuda-nsight-compute cuda-nvcc cuda-nvdisasm cuda-nvml-dev cuda-nvprof cuda-nvprune cuda-nvrtc cuda-nvrtc-dev cuda-nvtx cuda-nvvp cuda-profiler-api cuda-runtime cuda-sanitizer-api cuda-toolkit cuda-tools cuda-version cuda-visual-tools -c nvidia/label/cuda-11.8.0
+conda install libcublas libcublas-dev libcufft libcufft-dev libcufile libcufile-dev libcurand libcurand-dev libcusolver libcusolver-dev libcusparse libcusparse-dev -c nvidia/label/cuda-11.8.0
+```
 You can also use docker or singularity. We provide the [Dockerfile](Dockerfile) we used in our experiments. You can also pull our image on dockerhub, which should be identical to our environment, by:
 ```
   $ docker pull skykiny/mamba # For docker
