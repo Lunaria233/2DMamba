@@ -10,13 +10,13 @@ set(CMAKE_CUDA_STANDARD 17)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-
 if (NOT $ENV{USER} STREQUAL "")
     if ($ENV{USER} STREQUAL "xihan1")
-        set(Python_ROOT_DIR "$ENV{HOME}/opt/anaconda3/envs/py3")
+        if (NOT DEFINED Python_ROOT_DIR)
+            set(Python_ROOT_DIR "$ENV{HOME}/opt/anaconda3/envs/py3")
+        endif ()
     else ()
-        # pass in -DPython_ROOT_DIR=/path/to/python
-        # set(Python_ROOT_DIR "/opt/conda")
+        # pass in -DPython_ROOT_DIR=/path/to/python in cmake command line arguments.
     endif ()
 endif ()
 
@@ -29,8 +29,6 @@ set(CAFFE2_USE_CUDNN ON)
 set(Torch_ROOT_DIR "${Python_ROOT_DIR}/lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/torch")
 message(${Torch_ROOT_DIR})
 find_package(Torch REQUIRED CONFIG HINTS "${Torch_ROOT_DIR}/share/cmake")
-
-
 
 set(TORCH_EXTENSION pscan)
 
@@ -57,26 +55,16 @@ add_library(${TORCH_EXTENSION} SHARED
         src/pscan.cu
 )
 
-#if (NOT $ENV{USER} STREQUAL "")
-#    if ($ENV{USER} STREQUAL "xihan1")
-#        set(${TORCH_EXTENSION}_OUTPUT_LIBRARY ${CMAKE_SOURCE_DIR}/mambapy/pscan_cuda/)
-#    else ()
-#        set(${TORCH_EXTENSION}_OUTPUT_LIBRARY ${CMAKE_SOURCE_DIR}/../v2dmamba_scan/)
-#    endif()
-#else ()
-#    set(${TORCH_EXTENSION}_OUTPUT_LIBRARY ${CMAKE_SOURCE_DIR}/../v2dmamba_scan/)
-#endif()
-
 if (NOT $ENV{USER} STREQUAL "")
     if ($ENV{USER} STREQUAL "xihan1")
-        set(OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/mambapy/pscan_cuda/)
+        if (NOT DEFINED OUTPUT_DIRECTORY)
+            set(OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/mambapy/pscan_cuda/)
+        endif ()
     else ()
-        # pass in -DOUTPUT_DIRECTORY=/path/to/output
-        # set(OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../v2dmamba_scan/)
+        # pass in -DOUTPUT_DIRECTORY=/path/to/output in cmake command line arguments.
     endif ()
 else ()
-    # pass in -DOUTPUT_DIRECTORY=/path/to/output
-    # set(OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../v2dmamba_scan/)
+    # pass in -DOUTPUT_DIRECTORY=/path/to/output in cmake command line arguments.
 endif()
 
 if (NOT DEFINED CUDA_ARCHS)
@@ -98,7 +86,7 @@ target_include_directories(${TORCH_EXTENSION} PUBLIC
         ${Torch_ROOT_DIR}/include/TH
         ${Torch_ROOT_DIR}/include/THC
         ${Python_INCLUDE_DIRS}
-        /usr/local/cuda/include
+        # /usr/local/cuda/include
 )
 
 #set(NAN_SMEM_CHECK ON)
@@ -148,7 +136,7 @@ target_compile_options(${TORCH_EXTENSION} PUBLIC
 target_link_directories(${TORCH_EXTENSION} PUBLIC
         ${Python_LIBRARY_DIRS}
         ${Torch_ROOT_DIR}/lib
-        /usr/local/cuda/lib64
+        # /usr/local/cuda/lib64
 )
 target_link_libraries(${TORCH_EXTENSION} PUBLIC
         c10
@@ -166,7 +154,6 @@ target_link_options(${TORCH_EXTENSION} PUBLIC
         -Wl,-rpath,${Python_LIBRARY_DIRS}
         -Wl,-rpath-link,${Python_LIBRARY_DIRS}
 )
-
 
 #set(TEST test)
 #add_executable(${TEST}
@@ -209,7 +196,7 @@ target_link_options(${TORCH_EXTENSION} PUBLIC
 #)
 #target_include_directories(${TEST} PUBLIC
 #        ${CMAKE_SOURCE_DIR}/include
-#        /usr/local/cuda/include
+#        # /usr/local/cuda/include
 #)
 #target_link_libraries(${TEST}
 #        cudart
