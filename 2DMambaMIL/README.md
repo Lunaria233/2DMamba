@@ -3,7 +3,9 @@
 We prepared the extracted feature in h5 files with the same format from [CLAM library]([/guides/content/editing-an-existing-page](https://github.com/mahmoodlab/CLAM)). 
 After preparation, please replace the corresponding h5 directory for the argument `--h5_path`. For CUDA scan, please use the flag `--cuda_pscan`.
 
-Sample script to run experiments.
+You need to first copy the compiled `pscan.so` to `2DMambaMIL/models/pscan_cuda/`. Pay attention to the logs to see if the program actually uses the cuda version.
+
+Sample script to run experiments (we use seed 0,1,2,3,4).
 
 ```
 cd 2DMambaMIL/2DMambaMIL

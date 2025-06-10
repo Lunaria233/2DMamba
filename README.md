@@ -1,5 +1,5 @@
 # 2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification
-Pytorch implementation for the 2DMamba framework described in the paper [2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification](https://arxiv.org/abs/2412.00678), [arxiv](https://arxiv.org/abs/2412.00678).  
+Pytorch implementation for the 2DMamba framework described in the paper [2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification](https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_2DMamba_Efficient_State_Space_Model_for_Image_Representation_with_Applications_CVPR_2025_paper.html), [arxiv](https://arxiv.org/abs/2412.00678) and [poster](misc/poster.pdf).  
 
 <div>
   <img src="misc/overview_github.jpg" width="100%"  alt="The overview of our framework."/>
@@ -48,17 +48,19 @@ You can also use docker or singularity. We provide the [Dockerfile](Dockerfile) 
 We use CMake to build our CUDA kernel. Please replace the ```-DPython_ROOT_DIR="/opt/conda"``` in ```cuda_kernel/build.sh``` with your python root directory. E.g. if you use conda environment and your python is located at ```/home/jzhang/Dev/anaconda3_2023/envs/vmamba/bin/python```, you should set ```-DPython_ROOT_DIR="/home/jzhang/Dev/anaconda3_2023/envs/vmamba"```. Then run ```bash build.sh```, the compiled pscan.so should appear under ```v2dmamba_scan``` folder. You can try cd to the root directory of this project and run ```import v2dmamba_scan``` in python to verify if it is correct.
 
 ## Contact
-If you have any questions or concerns, feel free to report an issue or directly contact us at Jingwei Zhang <jingwezhang@cs.stonybrook.edu>, Anh Tien Nguyen <tienanhnguyen9991@gmail.com> or Xi Han <xihan1@cs.stonybrook.edu>. 
+If you have any questions or concerns, feel free to report an issue or directly contact us at Jingwei Zhang <jingwezhang@cs.stonybrook.edu>, Xi Han <xihan1@cs.stonybrook.edu> and Anh Tien Nguyen <tienanhnguyen9991@gmail.com>. 
 
 ## Acknowledgments
 Our framework is based on [Mamba](https://github.com/state-spaces/mamba), [VMamba](https://github.com/MzeroMiko/VMamba) and [mamba.py](https://github.com/alxndrTL/mamba.py). Thanks for their outstanding code.
 ## Citation
 If you use the code or results in your research, please use the following BibTeX entry.  
 ```
-@article{zhang20242dmamba,
-  title={2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification},
-  author={Zhang, Jingwei and Nguyen, Anh Tien and Han, Xi and Trinh, Vincent Quoc-Huy and Qin, Hong and Samaras, Dimitris and Hosseini, Mahdi S},
-  journal={arXiv preprint arXiv:2412.00678},
-  year={2024}
+@InProceedings{Zhang_2025_CVPR,
+    author    = {Zhang, Jingwei and Nguyen, Anh Tien and Han, Xi and Trinh, Vincent Quoc-Huy and Qin, Hong and Samaras, Dimitris and Hosseini, Mahdi S.},
+    title     = {2DMamba: Efficient State Space Model for Image Representation with Applications on Giga-Pixel Whole Slide Image Classification},
+    booktitle = {Proceedings of the Computer Vision and Pattern Recognition Conference (CVPR)},
+    month     = {June},
+    year      = {2025},
+    pages     = {3583-3592}
 }
 ```
